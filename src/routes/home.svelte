@@ -7,7 +7,7 @@
     import PictureCarousel from '../components/picture-carousel.svelte';
 
     
-    let preview = false;
+    let preview = false; let centerFocused=false;
 	onMount(() => {
 		isProtectedRoute.set(true)
         if(!$authUser) goto("/login")
@@ -17,14 +17,18 @@
 <div class="home-root flex-1 flex flex-col mt-20">
     
     {#if preview == true}
-    <div class="pics">
-        <PictureCarousel class="PictureCarousel" bind:preview={preview}/>
-        <!-- <button on:tap={handleClose}>X</button> -->
-    </div>
+        <div class="pics">
+            <PictureCarousel class="PictureCarousel" bind:preview={preview} bind:centerFocused={centerFocused}/>
+            <!-- <button on:tap={handleClose}>X</button> -->
+        </div>
     {/if}
     
-    <World />
-    <BottomMenu bind:preview={preview}/>
+    <World bind:preview={preview}/>
+    
+    {#if centerFocused===false}
+        <BottomMenu bind:preview={preview}/>
+    {/if}
+
 </div>
 
 

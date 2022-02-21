@@ -1,0 +1,6 @@
+{
+	"appId": "com.yaabin.beta",
+	"appName": "Yaabin",
+	"webDir": "build/",
+	"bundledWebRuntime": false
+}

@@ -33,6 +33,8 @@
     "@capacitor/app": "^1.1.0",
     "@fancyapps/ui": "^4.0.25",
     "@supabase/supabase-js": "^1.28.2",
-    "svelte-three": "^0.1.2"
+    "jquery": "^3.6.0",
+    "svelte-three": "^0.1.2",
+    "swiper": "^8.0.6"
   }
 }
