@@ -233,14 +233,14 @@
 	#body {
 		position: absolute;
 		top: 70vh;
-		left: 19vw;
+		left: 5vw;
 		z-index: 1;
 	}
 	.close {
 		position: absolute;
 		height: 2.5vh;
 		width: 5.8vw;
-		top: -20vh;
+		top: -15vh;
 		left: 90vw;
 	}
 
