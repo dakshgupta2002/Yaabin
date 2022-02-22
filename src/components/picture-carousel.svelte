@@ -1,51 +1,17 @@
 <script>
-	import { onMount } from 'svelte';
+	import imageData from '../images/images.js';
+
+	import { Navigation, Pagination, Scrollbar, A11y, Virtual } from 'swiper';
+	import { Swiper, SwiperSlide } from 'swiper/svelte';
+	import 'swiper/css';
 
 	export let preview;
 	export let centerFocused;
-	let resRight;
-	let resLeft;
-	let resCenter;
-
-	async function fetchImage() {
-		const resp = await fetch('https://dog.ceo/api/breeds/image/random');
-		const data = await resp.json();
-		return data;
-	}
-	const updateImages = () => {
-		console.log("url("+resLeft.message+")");
-		document.getElementById('leftImg').style.backgroundImage = "url("+resLeft.message+")";
-		document.getElementById('rightImg').style.backgroundImage = "url("+resRight.message+")";
-		document.getElementById('centerImg').style.backgroundImage = "url("+resCenter.message+")";
-	};
-	onMount(async () => {
-		resLeft = await fetchImage();
-		resRight = await fetchImage();
-		resCenter = await fetchImage();
-		updateImages();
-	});
-	const left = async () => {
-		resRight = resCenter;
-		resCenter = resLeft;
-		resLeft = await fetchImage();
-		updateImages();
-	};
-	const right = async () => {
-		resLeft = resCenter;
-		resCenter = resRight;
-		resRight = await fetchImage();
-		updateImages();
-	};
 
 	const centerFocus = (centerImg, body, centerFocused) => {
-		console.log('hello');
 		if (centerFocused && centerImg && body) {
-			centerImg.style.transform = 'scale(1.5)';
-			centerImg.style.width = '100vw';
-			body.innerHTML = resCenter.message;
+			body.innerHTML = '';
 		} else if (centerImg) {
-			centerImg.style.transform = 'scale(1)';
-			centerImg.style.width = '55vw';
 			body.innerHTML = '';
 		}
 	};
@@ -55,6 +21,13 @@
 		document.getElementById('body'),
 		centerFocused
 	);
+
+	function prependSlide() {
+		
+	}
+	function appendSlide() {
+		
+	}
 </script>
 
 <div>
@@ -74,10 +47,106 @@
 	<div>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
+			width="32.737"
+			height="30.266"
+			viewBox="0 0 32.737 30.266"
+			class="left-arrow"
+		>
+			>
+			<g
+				id="Group_2208"
+				data-name="Group 2208"
+				transform="matrix(-1, -0.017, 0.017, -1, 3573.403, 1399.636)"
+				opacity="0.996"
+			>
+				<path
+					id="Path_1276"
+					data-name="Path 1276"
+					d="M3570.43,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(19.22 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+				<path
+					id="Path_1277"
+					data-name="Path 1277"
+					d="M3565,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(0 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+				<path
+					id="Path_7898"
+					data-name="Path 7898"
+					d="M3570.43,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(7.22 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+			</g>
+		</svg>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="32.224"
+			height="29.708"
+			viewBox="0 0 32.224 29.708"
+			class="right-arrow"
+			on:click={prependSlide}
+			on:tap={prependSlide}
+		>
+			<g
+				id="Group_2207"
+				data-name="Group 2207"
+				transform="translate(-3564.544 -1307.359)"
+				opacity="0.996"
+			>
+				<path
+					id="Path_1276"
+					data-name="Path 1276"
+					d="M3570.43,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(19.22 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+				<path
+					id="Path_1277"
+					data-name="Path 1277"
+					d="M3565,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(0 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+				<path
+					id="Path_7898"
+					data-name="Path 7898"
+					d="M3570.43,1307.564l6.57,14.649-6.57,14.649"
+					transform="translate(7.22 0)"
+					fill="none"
+					stroke="#c5ffbb"
+					stroke-miterlimit="10"
+					stroke-width="1"
+				/>
+			</g>
+		</svg>
+
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
 			width="25.28"
 			height="22.579"
 			viewBox="0 0 25.28 22.579"
 			class="beads"
+			on:click={appendSlide}
+			on:tap={appendSlide}
 		>
 			<g id="Group_2190" data-name="Group 2190" transform="translate(-4352.72 -1246.618)">
 				<path
@@ -136,44 +205,34 @@
 			</g>
 		</svg>
 	</div>
+	<div class="swiper-container">
+		<Swiper
+			modules={[Navigation, Pagination, Scrollbar, A11y, Virtual]}
+			spaceBetween={0}
+			slidesPerView={3}
+			navigation
+			scrollbar={{ draggable: true }}
+			pagination={{ clickable: true }}
+			virtual={{ slides: imageData }}
+			let:virtualData={{ slides, offset, from }}
+		>
+			{#each slides as slide, index (from + index)}
+				<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
+					<img class="leftImg" src={slide.src} alt={slide.alt} />
+					<img class="centerImg" src={slide.src} alt={slide.alt} />
+					<img class="rightImg" src={slide.src} alt={slide.alt} />
 
-	<div class="carousel">
-		<div
-			class="imageWrapper leftImg"
-			id="leftImg"
-			on:drag={(e) => {
-				e.preventDefault();
-			}}
-			on:click={left}
-			on:tap={left}
-		/>
-
-		<div
-			class="imageWrapper rightImg"
-			id="rightImg"
-			on:drag={(e) => {
-				e.preventDefault();
-			}}
-			on:click={right}
-			on:tap={left}
-		/>
-
-		<div
-			class="imageWrapper centerImg"
-			id="centerImg"
-			on:drag={(e) => {
-				e.preventDefault();
-			}}
-			on:click={() => {
-				centerFocused = true;
-			}}
-		/>
+					<h1>{slide.caption}</h1>
+				</SwiperSlide>
+			{/each}
+		</Swiper>
 	</div>
 
 	<h1 id="body" />
 </div>
 
 <style>
+
 	img {
 		display: inline;
 	}
@@ -184,11 +243,7 @@
 		top: 3vh;
 		left: 19vw;
 		z-index: 1;
-		overflow: hidden;
-		background-size: contain;
-		display: flex;
-		justify-content: center;
-		align-content: center;
+		
 	}
 	.leftImg {
 		position: absolute;
@@ -197,11 +252,6 @@
 		top: 10.5vh;
 		left: -6vw;
 		opacity: 0.5;
-		overflow: hidden;
-		background-size: contain;
-		display: flex;
-		justify-content: center;
-		align-content: center;
 	}
 	.rightImg {
 		position: absolute;
@@ -210,11 +260,12 @@
 		top: 10.5vh;
 		left: 59vw;
 		opacity: 0.5;
-		overflow: hidden;
-		background-size: contain;
-		display: flex;
-		justify-content: center;
-		align-content: center;
+	}
+	.swiper-container {
+		position: absolute;
+		top: 0px;
+		width: fit-content;
+		height: 100%;
 	}
 	.viewMap {
 		position: absolute;
@@ -244,7 +295,22 @@
 		left: 90vw;
 	}
 
-	.imageWrapper{
+	.left-arrow {
+		position: absolute;
+		height: 2.5vh;
+		width: 5.8vw;
+		top: 30vh;
+		left: 0vw;
+	}
+
+	.right-arrow {
+		position: absolute;
+		height: 2.5vh;
+		width: 5.8vw;
+		top: 30vh;
+		left: 90vw;
+	}
+	.imageWrapper {
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;

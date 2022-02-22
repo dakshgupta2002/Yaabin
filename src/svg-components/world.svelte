@@ -10,7 +10,7 @@
 
 <div
 	bind:clientWidth={worldWidth}
-	class="world-root bg-blue sm:place-self-center xl:place-self-center 2xl:place-self-center"
+	class="world-root bg-blue sm:place-self-center xl:place-self-center 2xl:place-self-center {$$props.class}"
 	class:bottom={absolute && screenWidth < 1200}
 	class:side={absolute && screenWidth >= 1200}
 	style="--world-width : {worldWidth}px; width: {screenHeight < 850 && screenWidth > screenHeight
