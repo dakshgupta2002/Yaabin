@@ -1,15 +1,27 @@
 <script>
 	import imageData from '../images/images.js';
 
-	import { Navigation, Pagination, Scrollbar, A11y, Virtual } from 'swiper';
+	import { Virtual } from 'swiper';
 	import { Swiper, SwiperSlide } from 'swiper/svelte';
 	import 'swiper/css';
 
 	export let preview;
 	export let centerFocused;
 
+	let virtualSlides = [];
+	for (let iii=0; iii<imageData.length-2; iii++) {
+		let currentSlides = [];
+		for (let j=iii;  j<iii+3; j++){
+			currentSlides.push(imageData[j]);
+		}
+
+		virtualSlides.push(currentSlides);
+	}
+
+
 	const centerFocus = (centerImg, body, centerFocused) => {
 		if (centerFocused && centerImg && body) {
+			document.getElementById("centerImg").classList.add("centerImgFocused")
 			body.innerHTML = '';
 		} else if (centerImg) {
 			body.innerHTML = '';
@@ -207,24 +219,24 @@
 	</div>
 	<div class="swiper-container">
 		<Swiper
-			modules={[Navigation, Pagination, Scrollbar, A11y, Virtual]}
-			spaceBetween={0}
-			slidesPerView={3}
-			navigation
-			scrollbar={{ draggable: true }}
-			pagination={{ clickable: true }}
-			virtual={{ slides: imageData }}
+			modules={[ Virtual]}
+			virtual={{ slides: virtualSlides }}
 			let:virtualData={{ slides, offset, from }}
 		>
 			{#each slides as slide, index (from + index)}
-				<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
-					<img class="leftImg" src={slide.src} alt={slide.alt} />
-					<img class="centerImg" src={slide.src} alt={slide.alt} />
-					<img class="rightImg" src={slide.src} alt={slide.alt} />
+					
+					<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
+						<div class="imgCarousel">
+							
+							<div id="leftImg" class="imgWrapper"><img  src={slide[0].src} alt={slide[0].alt} /></div>
+							<div id="centerImg" class="imgWrapper" on:click={()=>{centerFocused=true;}}><img  src={slide[1].src} alt={slide[1].alt} /></div>
+							<div id="rightImg" class="imgWrapper"><img  src={slide[2].src} alt={slide[2].alt} /></div>
+						
+						</div>
+					</SwiperSlide>
 
-					<h1>{slide.caption}</h1>
-				</SwiperSlide>
 			{/each}
+
 		</Swiper>
 	</div>
 
@@ -235,6 +247,22 @@
 
 	img {
 		display: inline;
+	}
+
+	.imgCarousel{
+		display: flex;
+		flex-direction: row;
+	}
+	.imgWrapper{
+		height: 34vh;
+		width: 25vw;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	.centerImgFocused{
+		transform: scale(2);
 	}
 	.centerImg {
 		position: absolute;
