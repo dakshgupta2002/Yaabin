@@ -226,13 +226,17 @@
 			{#each slides as slide, index (from + index)}
 					
 					<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
-						<div class="imgCarousel">
+						{#if centerFocused===true}
+							<div  class="imgWrapper"> <img  src={slide[0].src} alt={slide[0].alt} /> </div>
+						{:else}
+							<div class="imgCarousel">
+								
+								<div id="leftImg" class="imgWrapper"><img  src={slide[0].src} alt={slide[0].alt} /></div>
+								<div id="centerImg" class="imgWrapper" on:click={()=>{centerFocused=true;}}><img  src={slide[1].src} alt={slide[1].alt} /></div>
+								<div id="rightImg" class="imgWrapper"><img  src={slide[2].src} alt={slide[2].alt} /></div>
 							
-							<div id="leftImg" class="imgWrapper"><img  src={slide[0].src} alt={slide[0].alt} /></div>
-							<div id="centerImg" class="imgWrapper" on:click={()=>{centerFocused=true;}}><img  src={slide[1].src} alt={slide[1].alt} /></div>
-							<div id="rightImg" class="imgWrapper"><img  src={slide[2].src} alt={slide[2].alt} /></div>
-						
-						</div>
+							</div>
+						{/if}
 					</SwiperSlide>
 
 			{/each}
