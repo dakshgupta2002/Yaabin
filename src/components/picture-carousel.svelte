@@ -225,19 +225,19 @@
 		>
 			{#each slides as slide, index (from + index)}
 					
-					<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
-						{#if centerFocused===true}
-							<div  class="imgWrapper"> <img  src={slide[0].src} alt={slide[0].alt} /> </div>
-						{:else}
-							<div class="imgCarousel">
-								
-								<div id="leftImg" class="imgWrapper"><img  src={slide[0].src} alt={slide[0].alt} /></div>
-								<div id="centerImg" class="imgWrapper" on:click={()=>{centerFocused=true;}}><img  src={slide[1].src} alt={slide[1].alt} /></div>
-								<div id="rightImg" class="imgWrapper"><img  src={slide[2].src} alt={slide[2].alt} /></div>
+				<SwiperSlide virtualIndex={from + index} style={`left: ${offset}px`}>
+					{#if centerFocused===true}
+						<div  class="focusImg"> <img  src={slide[0].src} alt={slide[0].alt} /> </div>
+					{:else}
+						<div class="imgCarousel">
 							
-							</div>
-						{/if}
-					</SwiperSlide>
+							<div class="imgWrapper leftImg"><img  src={slide[0].src} alt={slide[0].alt} /></div>
+							<div class="imgWrapper centerImg" on:click={()=>{centerFocused=true;}}><img  src={slide[1].src} alt={slide[1].alt} /></div>
+							<div class="imgWrapper rightImg"><img  src={slide[2].src} alt={slide[2].alt} /></div>
+						
+						</div>
+					{/if}
+				</SwiperSlide>
 
 			{/each}
 
@@ -254,44 +254,54 @@
 	}
 
 	.imgCarousel{
+		width: 100vw;
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
 	}
 	.imgWrapper{
-		height: 34vh;
-		width: 25vw;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center;
+		border: 2px solid white;
 	}
 
 	.centerImgFocused{
 		transform: scale(2);
 	}
 	.centerImg {
-		position: absolute;
+		/* position: absolute; */
 		width: 55vw;
 		height: 47vh;
-		top: 3vh;
-		left: 19vw;
-		z-index: 1;
+		/* top: 3vh;
+		left: 19vw; */
+		/* z-index: 1; */
 		
 	}
 	.leftImg {
-		position: absolute;
+		/* position: absolute; */
 		width: 45vw;
 		height: 34vh;
-		top: 10.5vh;
-		left: -6vw;
+		/* top: 10.5vh; */
+		/* left: -6vw; */
 		opacity: 0.5;
 	}
 	.rightImg {
-		position: absolute;
+		/* position: absolute; */
 		width: 45vw;
 		height: 34vh;
-		top: 10.5vh;
-		left: 59vw;
+		/* top: 10.5vh; */
+		/* left: 59vw; */
 		opacity: 0.5;
+	}
+
+	.focusImg{
+		height: 70vh;
+		width: 100vw;
+	}
+	.focusImg img{
+		height: 100%;
+		width: 100%;
 	}
 	.swiper-container {
 		position: absolute;
